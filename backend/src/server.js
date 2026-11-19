@@ -1,0 +1,44 @@
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
+import rateLimit from 'express-rate-limit';
+import { connectDB } from './config/db.js';
+import { requireAuth } from './middleware/auth.js';
+import authRoutes from './routes/auth.js';
+import userRoutes from './routes/users.js';
+import leadRoutes from './routes/leads.js';
+import followUpRoutes from './routes/followups.js';
+import dashboardRoutes from './routes/dashboard.js';
+import clientRoutes from './routes/clients.js';
+import exportRoutes from './routes/export.js';
+import { startReminderWorker } from './services/reminderWorker.js';
+
+const app = express();
+app.set('trust proxy', 1);
+app.use(helmet());
+app.use(cors({ origin: process.env.FRONTEND_URL?.split(',') || 'http://localhost:5173', credentials: true }));
+app.use(express.json({ limit: '1mb' }));
+app.use(cookieParser());
+app.use('/api/auth/login', rateLimit({ windowMs: 15 * 60 * 1000, limit: 20, standardHeaders: true, legacyHeaders: false }));
+app.get('/api/health', (_req,res) => res.json({ status: 'ok', service: 'LeadFlow API' }));
+app.use('/api/auth', authRoutes);
+app.use('/api', requireAuth);
+app.use('/api/users', userRoutes);
+app.use('/api/leads', leadRoutes);
+app.use('/api/followups', followUpRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/clients', clientRoutes);
+app.use('/api/export', exportRoutes);
+app.use((err, _req, res, _next) => {
+  console.error(err);
+  if (err.code === 11000) return res.status(409).json({ message: 'A record with this value already exists' });
+  res.status(500).json({ message: process.env.NODE_ENV === 'production' ? 'Server error' : err.message });
+});
+
+const port = process.env.PORT || 5000;
+await connectDB();
+if (process.env.JWT_SECRET?.length < 32) throw new Error('JWT_SECRET must be at least 32 characters');
+startReminderWorker();
+app.listen(port, () => console.log(`LeadFlow API running on ${port}`));
