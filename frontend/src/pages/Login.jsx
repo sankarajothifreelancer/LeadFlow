@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import api from '../api';
 
@@ -9,6 +9,12 @@ export function Login({ onLogin }) {
   const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+
+  // Guarantee fields start completely empty and wipe any browser autofill on load
+  useEffect(() => {
+    setEmail('');
+    setPassword('');
+  }, []);
 
   async function submit(e) {
     e.preventDefault();
@@ -106,7 +112,25 @@ export function Login({ onLogin }) {
               </div>
             )}
 
-            <form onSubmit={submit} className="pin-form">
+            <form onSubmit={submit} className="pin-form" autoComplete="off" noValidate>
+              {/* Dummy invisible fields to intercept and defeat aggressive browser password autofill */}
+              <input
+                type="text"
+                name="crm_dummy_user_id"
+                tabIndex={-1}
+                aria-hidden="true"
+                style={{ position: 'absolute', opacity: 0, height: 0, width: 0, zIndex: -1, pointerEvents: 'none' }}
+                autoComplete="off"
+              />
+              <input
+                type="password"
+                name="crm_dummy_password"
+                tabIndex={-1}
+                aria-hidden="true"
+                style={{ position: 'absolute', opacity: 0, height: 0, width: 0, zIndex: -1, pointerEvents: 'none' }}
+                autoComplete="new-password"
+              />
+
               {/* E-mail Pill */}
               <div className="pin-pill-field">
                 <div className="pin-pill-icon">
@@ -114,10 +138,20 @@ export function Login({ onLogin }) {
                 </div>
                 <input
                   type="email"
+                  name="leadflow_auth_email_id"
+                  id="leadflow_auth_email_id"
                   required
                   placeholder="E-mail"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
+                  onFocus={e => e.target.removeAttribute('readonly')}
+                  onPointerDown={e => e.target.removeAttribute('readonly')}
+                  readOnly
+                  autoComplete="one-time-code"
+                  autoCorrect="off"
+                  autoCapitalize="none"
+                  spellCheck="false"
+                  data-lpignore="true"
                   className="pin-pill-input"
                 />
               </div>
@@ -129,10 +163,17 @@ export function Login({ onLogin }) {
                 </div>
                 <input
                   type={showPassword ? 'text' : 'password'}
+                  name="leadflow_auth_pwd_hash"
+                  id="leadflow_auth_pwd_hash"
                   required
                   placeholder="Password"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
+                  onFocus={e => e.target.removeAttribute('readonly')}
+                  onPointerDown={e => e.target.removeAttribute('readonly')}
+                  readOnly
+                  autoComplete="new-password"
+                  data-lpignore="true"
                   className="pin-pill-input"
                 />
                 <button

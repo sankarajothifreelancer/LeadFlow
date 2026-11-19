@@ -128,6 +128,7 @@ export function Team() {
 
       {/* Role Explanation Callout Card */}
       <div
+        className="team-roles-banner"
         style={{
           background: 'var(--surface-card)',
           border: '1px solid var(--border-line)',
@@ -135,7 +136,7 @@ export function Team() {
           padding: '20px',
           boxShadow: 'var(--glass-shadow-sm)',
           display: 'grid',
-          gridTemplateColumns: 'repeat(2, 1fr)',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
           gap: '20px'
         }}
       >
@@ -244,7 +245,9 @@ export function Team() {
           size="md"
           onClose={() => setShowModal(false)}
         >
-          <form onSubmit={handleCreateMember}>
+          <form onSubmit={handleCreateMember} autoComplete="off">
+            <input type="text" name="dummy_prevent_autofill_u" style={{ display: 'none' }} tabIndex={-1} aria-hidden="true" autoComplete="off" />
+            <input type="password" name="dummy_prevent_autofill_p" style={{ display: 'none' }} tabIndex={-1} aria-hidden="true" autoComplete="new-password" />
             <div className="modal-body">
               <div className="form-field">
                 <label>Full Name <span className="req">*</span></label>
@@ -254,6 +257,7 @@ export function Team() {
                   placeholder="e.g. Rahul Sharma"
                   value={form.name}
                   onChange={e => setForm({ ...form, name: e.target.value })}
+                  autoComplete="off"
                 />
               </div>
 
@@ -266,6 +270,7 @@ export function Team() {
                   placeholder="rahul@example.com"
                   value={form.email}
                   onChange={e => setForm({ ...form, email: e.target.value })}
+                  autoComplete="off"
                 />
               </div>
 
@@ -279,6 +284,7 @@ export function Team() {
                   placeholder="Minimum 6 characters"
                   value={form.password}
                   onChange={e => setForm({ ...form, password: e.target.value })}
+                  autoComplete="new-password"
                 />
                 <span className="form-hint">
                   Password must be at least 6 characters. Share this securely with your teammate.

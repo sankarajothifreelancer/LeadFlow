@@ -82,7 +82,7 @@ export function LeadDetailModal({
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '14px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '14px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <div className="avatar">
                 {(lead.createdBy?.name || 'U').slice(0, 1).toUpperCase()}
