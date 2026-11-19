@@ -3,8 +3,8 @@ import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import api from '../api';
 
 export function Login({ onLogin }) {
-  const [email, setEmail] = useState('sankarajothifreelancer@gmail.com');
-  const [password, setPassword] = useState('nobi@2406');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState('');
