@@ -66,7 +66,7 @@ export function Dashboard({ user }) {
       value: data.total,
       icon: Building2,
       tone: 'neutral',
-      sub: 'All recorded leads'
+      sub: user.role === 'admin' ? 'All recorded leads' : `${data.myLeads ?? 0} assigned to you`
     },
     {
       label: 'High-Intent Prospects',
