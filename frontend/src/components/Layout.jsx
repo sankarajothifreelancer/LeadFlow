@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
   Building2,
@@ -10,12 +10,14 @@ import {
   Menu,
   X,
   ShieldCheck,
-  Sparkles
+  Sparkles,
+  Plus
 } from 'lucide-react';
 import { useState } from 'react';
 
 export function Layout({ user, onLogout, children }) {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="shell">
@@ -39,6 +41,26 @@ export function Layout({ user, onLogout, children }) {
             aria-label="Close menu"
           >
             <X size={18} />
+          </button>
+        </div>
+
+        {/* Global Quick Action: Add Business */}
+        <div style={{ marginBottom: '16px', padding: '0 4px' }}>
+          <button
+            type="button"
+            className="btn btn-primary"
+            style={{
+              width: '100%',
+              justifyContent: 'center',
+              boxShadow: '0 6px 16px -2px rgba(7, 25, 82, 0.4)'
+            }}
+            onClick={() => {
+              setOpen(false);
+              navigate('/leads?add=1');
+            }}
+          >
+            <Plus size={16} />
+            <span>Add Business</span>
           </button>
         </div>
 
@@ -175,6 +197,15 @@ export function Layout({ user, onLogout, children }) {
             <div className="topbar-title">LeadFlow Workspace</div>
           </div>
           <div className="topbar-right">
+            <button
+              type="button"
+              className="btn btn-primary btn-sm topbar-add-business-btn"
+              onClick={() => navigate('/leads?add=1')}
+              title="Add a new business lead"
+            >
+              <Plus size={15} />
+              <span>Add Business</span>
+            </button>
             <div className="user-tag creator">
               <div className="user-tag-avatar">
                 {user.name.slice(0, 1).toUpperCase()}

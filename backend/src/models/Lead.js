@@ -7,7 +7,21 @@ const leadSchema = new mongoose.Schema({
   email: { type: String, trim: true, lowercase: true, default: '' },
   city: { type: String, trim: true, default: '' },
   category: { type: String, trim: true, default: '' },
-  service: { type: String, enum: ['Website', 'Mobile App', 'CRM / SaaS', 'Digital Marketing', 'Other'], default: 'Other' },
+  service: {
+    type: String,
+    enum: [
+      'Website',
+      'Web Development',
+      'Mobile App',
+      'App Development',
+      'CRM / SaaS',
+      'Digital Marketing',
+      'SEO',
+      'UI/UX Design',
+      'Other'
+    ],
+    default: 'Website'
+  },
   status: { type: String, enum: ['New Lead','First Call Completed','Interested','Portfolio Sent','Proposal Sent','Follow-up Required','Negotiation','Converted','Not Interested','No Response','Lost'], default: 'New Lead' },
   priority: { type: String, enum: ['Low','Medium','High'], default: 'Medium' },
   source: { type: String, enum: ['Call','WhatsApp','Instagram','Email','Referral','Other'], default: 'Call' },

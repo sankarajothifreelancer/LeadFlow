@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
   Plus,
   Search,
@@ -45,6 +46,8 @@ export function Leads({ user }) {
   const [error, setError] = useState('');
   const [toast, setToast] = useState('');
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
   // Active Modals
   const [activeLead, setActiveLead] = useState(null); // for detail popup
   const [formModalLead, setFormModalLead] = useState(null); // null = new, object = edit, false = closed
@@ -52,6 +55,14 @@ export function Leads({ user }) {
   const [logModalLead, setLogModalLead] = useState(null);
   const [scheduleModalLead, setScheduleModalLead] = useState(null);
   const [convertModalLead, setConvertModalLead] = useState(null);
+
+  useEffect(() => {
+    if (searchParams.get('add') === '1' || searchParams.get('add') === 'true') {
+      setFormModalLead(null);
+      setIsFormOpen(true);
+      setSearchParams({}, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
 
   function showToast(msg) {
     setToast(msg);
@@ -208,8 +219,20 @@ export function Leads({ user }) {
           ))}
         </select>
 
+        {/* Quick Add Business Button */}
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={() => {
+            setFormModalLead(null);
+            setIsFormOpen(true);
+          }}
+        >
+          <Plus size={15} /> Add Business
+        </button>
+
         {/* CSV Export */}
-        <button className="btn btn-secondary" onClick={exportCsv}>
+        <button type="button" className="btn btn-secondary" onClick={exportCsv}>
           <Download size={15} /> Export CSV
         </button>
       </div>
