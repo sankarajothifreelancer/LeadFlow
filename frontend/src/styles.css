@@ -1115,6 +1115,17 @@ tr.interactive-row:hover td {
   overflow: hidden;
 }
 
+/* Ensure forms inside modal-card fill available height and enable scrolling in modal-body */
+.modal-card > form,
+.modal-card form,
+.modal-form-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
 .modal-card-lg { max-width: 720px; }
 .modal-card-sm { max-width: 440px; }
 
@@ -1137,6 +1148,7 @@ tr.interactive-row:hover td {
   justify-content: space-between;
   gap: 16px;
   background: rgba(255, 255, 255, 0.6);
+  flex-shrink: 0;
 }
 
 .modal-title-group {
@@ -1174,19 +1186,23 @@ tr.interactive-row:hover td {
 .modal-body {
   padding: 24px;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   display: flex;
   flex-direction: column;
   gap: 18px;
+  flex: 1;
+  min-height: 0;
 }
 
 .modal-footer {
   padding: 16px 24px;
-  border-top: 1px solid var(--glass-border-subtle);
-  background: rgba(255, 255, 255, 0.6);
+  border-top: 1px solid var(--border-line);
+  background: rgba(255, 255, 255, 0.95);
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 10px;
+  flex-shrink: 0;
 }
 
 /* Glass Inputs */
@@ -2126,6 +2142,7 @@ tr.interactive-row:hover td {
     padding: 12px 16px;
     flex-direction: column-reverse;
     gap: 8px;
+    flex-shrink: 0;
   }
   .modal-footer .btn {
     width: 100%;

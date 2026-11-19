@@ -245,7 +245,7 @@ export function Team() {
           size="md"
           onClose={() => setShowModal(false)}
         >
-          <form onSubmit={handleCreateMember} autoComplete="off">
+          <form onSubmit={handleCreateMember} className="modal-form-wrapper" autoComplete="off">
             <input type="text" name="dummy_prevent_autofill_u" style={{ display: 'none' }} tabIndex={-1} aria-hidden="true" autoComplete="off" />
             <input type="password" name="dummy_prevent_autofill_p" style={{ display: 'none' }} tabIndex={-1} aria-hidden="true" autoComplete="new-password" />
             <div className="modal-body">

@@ -35,7 +35,7 @@ export function ConvertClientModal({ lead, onClose, onConverted }) {
       size="md"
       onClose={onClose}
     >
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="modal-form-wrapper">
         <div className="modal-body">
           {error && (
             <div className="alert-box alert-error">

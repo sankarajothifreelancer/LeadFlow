@@ -102,7 +102,7 @@ export function LeadFormModal({
       size="lg"
       onClose={onClose}
     >
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="modal-form-wrapper">
         <div className="modal-body">
           {error && (
             <div className="alert-box alert-error">
@@ -292,7 +292,7 @@ export function LeadFormModal({
             className="btn btn-primary"
             disabled={saving}
           >
-            {saving ? 'Saving…' : isEdit ? 'Save Changes' : 'Register Business'}
+            {saving ? 'Saving…' : isEdit ? 'Save Changes' : 'Save Business'}
           </button>
         </div>
       </form>

@@ -219,18 +219,6 @@ export function Leads({ user }) {
           ))}
         </select>
 
-        {/* Quick Add Business Button */}
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={() => {
-            setFormModalLead(null);
-            setIsFormOpen(true);
-          }}
-        >
-          <Plus size={15} /> Add Business
-        </button>
-
         {/* CSV Export */}
         <button type="button" className="btn btn-secondary" onClick={exportCsv}>
           <Download size={15} /> Export CSV
